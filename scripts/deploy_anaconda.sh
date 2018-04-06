@@ -7,12 +7,17 @@ set -e
 
 CONDA_PATH=$(which conda | sed -e 's/\(miniconda.\)\/.*/\1/g')
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+OUT="$SCRIPT_DIR/../conda-bld"
+
 
 echo "Converting conda package..."
-conda convert --platform all $CONDA_PATH/conda-bld/linux-64/ipython_memwatcher-*.tar.bz2 --output-dir $SCRIPT_DIR/../conda-bld/
+conda convert --platform all $CONDA_PATH/conda-bld/linux-64/ipython_memwatcher-*.tar.bz2 --output-dir $OUT/
 
 echo "copy original linux-64 packages..."
-cp -rv $CONDA_PATH/conda-bld/linux-64/ipython_memwatcher-*.tar.bz2 $SCRIPT_DIR/../conda-bld/
+if [ ! -d $OUT/linux-64 ]; then
+    mkdir $OUT/linux-64/
+fi
+cp -v $CONDA_PATH/conda-bld/linux-64/ipython_memwatcher-*.tar.bz2 $OUT/linux-64/
 
 echo "Deploying to Anaconda.org..."
 anaconda -t $ANACONDA_TOKEN upload $SCRIPT_DIR/../conda-bld/**/ipython_memwatcher-*.tar.bz2
