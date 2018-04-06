@@ -11,10 +11,10 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Converting conda package..."
 conda convert --platform all $CONDA_PATH/conda-bld/linux-64/ipython_memwatcher-*.tar.bz2 --output-dir $SCRIPT_DIR/../conda-bld/
 
-ecoh "copy original linux-64 packages..."
+echo "copy original linux-64 packages..."
 cp -rv $CONDA_PATH/conda-bld/linux-64/ipython_memwatcher-*.tar.bz2 $SCRIPT_DIR/../conda-bld/
 
 echo "Deploying to Anaconda.org..."
-#anaconda -t $ANACONDA_TOKEN upload $SCRIPT_DIR/../conda-bld/**/ipython_memwatcher-*.tar.bz2
+anaconda -t $ANACONDA_TOKEN upload $SCRIPT_DIR/../conda-bld/**/ipython_memwatcher-*.tar.bz2
 
 exit 0
