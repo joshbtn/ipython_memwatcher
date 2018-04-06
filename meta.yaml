@@ -1,0 +1,47 @@
+{% set name = "ipython_memwatcher" %}
+{% set version = "0.2.1" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "a8a3204d5baf930cb3e379ccce215c0af4f33d95338ea7c31a4886cbf6409866" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - ipython >=2.1
+    - memory_profiler
+  run:
+    - python
+    - ipython >=2.1
+    - memory_profiler
+
+test:
+  imports:
+    - ipython_memwatcher
+
+about:
+  home: https://github.com/FrancescAlted/ipython_memwatcher
+  license: BSD-2-Clause
+  license_family: BSD
+  license_file: 'License.txt'
+  summary: 'ipython_memwatcher: display memory usage during IPython execution'
+  description: "ipython_memwatcher is an IPython tool to report memory usage deltas for\nevery command you type.\n\nThis is strongly based on\nhttps://github.com/ianozsvald/ipython_memory_usage by Ian Ozsvald\
+    \ and in\nthe future ipython_memwatcher can merged back into ipython_memory_usage."
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: 'faltet AT gmail DOT com'
